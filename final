@@ -1357,3 +1357,54 @@ class knight {
 		solveKT();
 	}
 }
+//Longest Palindromic String
+import java.util.*;
+class lpsm{
+    public static String prep(String s1){
+        StringBuilder sb=new StringBuilder();
+        sb.append("#");
+        for(char c:s1.toCharArray()){
+            sb.append(c);
+            sb.append("#");
+        }
+        return sb.toString();
+    }
+    public static void finals(String s1){
+        String pre=prep(s1);
+        int n=pre.length();
+        int []p=new int[n];
+        int right=0;
+        int centre=0;
+        for(int i=0;i<n;i++){
+            int mirror=2*centre-i;
+            if(i<right)
+            p[i]=Math.min(right-i,p[i]);
+            int lb=i-(p[i]+1);
+            int rb=i+(p[i]+1);
+            while(lb>=0 && rb<n && pre.charAt(lb)==pre.charAt(rb)){
+                p[i]++;
+                lb--;
+                rb++;
+            }
+            if(i+p[i]>right){
+                centre=i;
+                right=i+p[i];
+            }
+        }
+        int maxlen=0;
+        int centeri=0;
+        for(int i=0;i<n;i++){
+            if(p[i]>maxlen){
+                maxlen=p[i];
+                centeri=i;
+            }
+        }
+        int start=(centeri-maxlen)/2;
+        int end=maxlen+start;
+        System.out.println(s1.substring(start,end));
+    }
+    public static void main(String args[]){
+        String s="babcbabcbaccba";
+        finals(s);
+    }
+}
